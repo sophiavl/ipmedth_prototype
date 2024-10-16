@@ -20,6 +20,7 @@ import mapAudio from "./audio/map.mp3";
 import mesAudio from "./audio/mes.mp3";
 import panAudio from "./audio/pan.mp3";
 import glasAudio from "./audio/glas.mp3";
+import whiteArrow from "./images/whiteArrow.png";
 import snoepAudio from "./audio/snoep.mp3";
 import check from "./images/check.svg";
 import React, { useState, useRef, useEffect } from "react";
@@ -126,22 +127,23 @@ const Oefenen = () => {
     <div className='App'>
       <div className='relative'>
         <div
-          className={`absolute inset-0 ${getBackground(
-            objects[currentIndex].categorie
-          )} opacity-70 z-0 bg-cover`}
+          className={`absolute inset-0 ${
+            started
+              ? getBackground(objects[currentIndex].categorie)
+              : "bg-green-400"
+          } opacity-70 z-0 bg-cover`}
         />
 
         <div className='relative z-10 h-screen opacity-100 flex flex-col items-center justify-start'>
           {!started && (
             <button
-              className='flex justify-center items-center w-64 h-44 mt-64 rounded-xl border-green-500 border-2 text-green-500'
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                filter: "drop-shadow(0px 3px 6px rgba(28, 27, 27, 0.50))",
-              }}
+              className='flex justify-center items-center w-52 h-52 mt-64 rounded-xl bg-green-500 text-card'
               onClick={handleStartClick}
             >
-              <h1 className='text-5xl font-medium'>Start</h1>
+              <div className='flex flex-col justify-center items-center'>
+                <h1 className='text-5xl'>Start</h1>
+                <img src={whiteArrow} className='h-16 w-16 mt-4'></img>
+              </div>
             </button>
           )}
 
@@ -161,13 +163,13 @@ const Oefenen = () => {
               </div>
 
               {/* card met pijltjes */}
-              <div className='flex flex-col justify-center items-center mt-36'>
+              <div className='flex flex-col justify-center items-center mt-18'>
                 <Card objects={objects} currentIndex={currentIndex}></Card>
 
                 {/* Toon de "arrowRight"-knop of "Klaar"-knop afhankelijk van het huidige item */}
                 {currentIndex < objects.length - 1 ? (
                   <div
-                    className={`flex justify-center items-center w-72 h-14 mt-8 rounded-lg cursor-pointer ${
+                    className={`flex justify-center items-center w-96 h-16 mt-6 rounded-lg cursor-pointer ${
                       isAudioPlaying ? "cursor-not-allowed opacity-50" : ""
                     }`}
                     style={{
@@ -184,7 +186,7 @@ const Oefenen = () => {
                   </div>
                 ) : (
                   <button
-                    className='flex justify-center items-center w-72 h-14 mt-8 rounded-lg border-green-500 border-2 bg-card text-green-500'
+                    className='flex justify-center items-center w-96 h-16 mt-6 rounded-lg border-green-500 border-2 bg-card text-green-500'
                     onClick={handleNavigate}
                   >
                     <img src={check} className='h-12'></img>
