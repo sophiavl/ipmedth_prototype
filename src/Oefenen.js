@@ -124,9 +124,9 @@ const Oefenen = () => {
   };
 
   return (
-    <div className='App'>
-      <div className='relative'>
-        <div
+    <main className='App'>
+      <article className='relative'>
+        <wrapper
           className={`absolute inset-0 ${
             started
               ? getBackground(objects[currentIndex].categorie)
@@ -134,7 +134,7 @@ const Oefenen = () => {
           } opacity-70 z-0 bg-cover`}
         />
 
-        <div className='relative z-10 h-screen opacity-100 flex flex-col items-center justify-start'>
+        <section className='relative z-10 h-screen opacity-100 flex flex-col items-center justify-start'>
           {!started && (
             <button
               className='flex justify-center items-center w-52 h-52 mt-64 rounded-xl bg-green-500 text-card'
@@ -163,13 +163,12 @@ const Oefenen = () => {
               </div>
 
               {/* card met pijltjes */}
-              <div className='flex flex-col justify-center items-center mt-18'>
+              <section className='flex flex-col justify-center items-center mt-18'>
                 <Card objects={objects} currentIndex={currentIndex}></Card>
 
-                {/* Toon de "arrowRight"-knop of "Klaar"-knop afhankelijk van het huidige item */}
                 {currentIndex < objects.length - 1 ? (
-                  <div
-                    className={`flex justify-center items-center w-96 h-16 mt-6 rounded-lg cursor-pointer ${
+                  <button
+                    className={`flex justify-center items-center w-96 h-16 mt-6 rounded-lg ${
                       isAudioPlaying ? "cursor-not-allowed opacity-50" : ""
                     }`}
                     style={{
@@ -177,27 +176,24 @@ const Oefenen = () => {
                       filter: "drop-shadow(0px 3px 6px rgba(28, 27, 27, 0.50))",
                     }}
                     onClick={!isAudioPlaying ? handleRightClick : null}
+                    disabled={isAudioPlaying} // Voegt de disabled functionaliteit toe
                   >
-                    <img
-                      src={arrowRight}
-                      alt='arrow'
-                      className='max-w-14'
-                    ></img>
-                  </div>
+                    <img src={arrowRight} alt='arrow' className='max-w-14' />
+                  </button>
                 ) : (
                   <button
                     className='flex justify-center items-center w-96 h-16 mt-6 rounded-lg border-green-500 border-2 bg-card text-green-500'
                     onClick={handleNavigate}
                   >
-                    <img src={check} className='h-12'></img>
+                    <img src={check} className='h-12' />
                   </button>
                 )}
-              </div>
+              </section>
             </>
           )}
-        </div>
-      </div>
-    </div>
+        </section>
+      </article>
+    </main>
   );
 };
 
