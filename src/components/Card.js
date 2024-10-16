@@ -12,13 +12,13 @@ const Card = ({ objects, currentIndex }) => {
       <div className='flex flex-col'>
         {/* card plaatje */}
         <div
-          className='w-60  h-60 bg-card rounded-t-xl'
+          className='w-72 h-72 bg-card rounded-t-xl'
           style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
         >
           <img
             src={objects[currentIndex].img}
             alt='appel'
-            className='w-full h-full object-contain'
+            className='w-full h-full p-4 object-contain'
           />
         </div>
         {/* card tekst */}

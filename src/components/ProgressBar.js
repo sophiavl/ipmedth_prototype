@@ -18,7 +18,7 @@ const ProgressBar = ({ currentIndex, totalItems }) => {
       </h1>
       <div className='h-4 w-11/12 mr-8 rounded-lg bg-white'>
         <div
-          className='h-4 bg-green-400 rounded-lg'
+          className='h-4 bg-green-500 rounded-lg'
           style={{ width: `${percentage}%` }}
         ></div>
       </div>

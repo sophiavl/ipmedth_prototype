@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         card: "#F2F2F2",
         section: "#F2F2F2",
+        niceGreen: "#46B92A",
       },
       fontFamily: {
         lato: ["Lato", "sans-serif"],

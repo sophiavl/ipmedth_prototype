@@ -2,7 +2,6 @@ import arrowRight from "./images/arrowRight.png";
 import ProgressBar from "./components/ProgressBar";
 import Card from "./components/Card";
 import banaan from "./images/banaan.png";
-import bord from "./images/bord.png";
 import ei from "./images/ei.png";
 import pan from "./images/pan.png";
 import map from "./images/map.png";
@@ -10,19 +9,29 @@ import melk from "./images/melk.png";
 import mes from "./images/mes.png";
 import pen from "./images/pen.png";
 import tas from "./images/tas.png";
-import melkAudio from "./mp3/melk.mp3";
-import eiAudio from "./mp3/ei.mp3";
-import banaanAudio from "./mp3/banaan.mp3";
-import penAudio from "./mp3/pen.mp3";
-import tasAudio from "./mp3/tas.mp3";
-import mapAudio from "./mp3/map.mp3";
-import mesAudio from "./mp3/mes.mp3";
-import bordAudio from "./mp3/bord.mp3";
-import panAudio from "./mp3/pan.mp3";
+import snoep from "./images/snoep.png";
+import glas from "./images/glas.png";
+import melkAudio from "./audio/melk.mp3";
+import eiAudio from "./audio/ei.mp3";
+import banaanAudio from "./audio/banaan.mp3";
+import penAudio from "./audio/pen.mp3";
+import tasAudio from "./audio/tas.mp3";
+import mapAudio from "./audio/map.mp3";
+import mesAudio from "./audio/mes.mp3";
+import panAudio from "./audio/pan.mp3";
+import glasAudio from "./audio/glas.mp3";
+import snoepAudio from "./audio/snoep.mp3";
+import check from "./images/check.svg";
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Oefenen = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/end");
+  };
   const objects = [
+    { name: "snoep", img: snoep, categorie: "supermarkt", audio: snoepAudio },
     { name: "melk", img: melk, categorie: "supermarkt", audio: melkAudio },
     { name: "ei", img: ei, categorie: "supermarkt", audio: eiAudio },
     {
@@ -35,7 +44,7 @@ const Oefenen = () => {
     { name: "tas", img: tas, categorie: "school", audio: tasAudio },
     { name: "map", img: map, categorie: "school", audio: mapAudio },
     { name: "mes", img: mes, categorie: "keuken", audio: mesAudio },
-    { name: "bord", img: bord, categorie: "keuken", audio: bordAudio },
+    { name: "glas", img: glas, categorie: "keuken", audio: glasAudio },
     { name: "pan", img: pan, categorie: "keuken", audio: panAudio },
   ];
 
@@ -79,18 +88,25 @@ const Oefenen = () => {
         { once: true }
       );
     }
-
-    // Zet de audio playing state terug
     setIsAudioPlaying(true);
 
-    // Maak de knop pas 2 seconden na het klikken weer actief
     setTimeout(() => {
       setIsAudioPlaying(false);
-    }, 2000); // 2 seconden wachttijd
+    }, 2000);
   };
 
   const handleAudioEnded = () => {
-    setIsAudioPlaying(false); // Enable the button when audio ends
+    const minDuration = 2000;
+    const elapsed = audioRef.current.currentTime * 1000;
+
+    if (elapsed < minDuration) {
+      const remainingTime = minDuration - elapsed;
+      setTimeout(() => {
+        setIsAudioPlaying(false);
+      }, remainingTime);
+    } else {
+      setIsAudioPlaying(false);
+    }
   };
 
   const getBackground = (categorie) => {
@@ -112,16 +128,20 @@ const Oefenen = () => {
         <div
           className={`absolute inset-0 ${getBackground(
             objects[currentIndex].categorie
-          )} opacity-40 z-0 bg-cover`}
+          )} opacity-70 z-0 bg-cover`}
         />
 
         <div className='relative z-10 h-screen opacity-100 flex flex-col items-center justify-start'>
           {!started && (
             <button
-              className='h-28 w-36 mt-48 bg-green-400 rounded-lg'
+              className='flex justify-center items-center w-64 h-44 mt-64 rounded-xl border-green-500 border-2 text-green-500'
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                filter: "drop-shadow(0px 3px 6px rgba(28, 27, 27, 0.50))",
+              }}
               onClick={handleStartClick}
             >
-              <h1 className='text-2xl'>Start</h1>
+              <h1 className='text-5xl font-medium'>Start</h1>
             </button>
           )}
 
@@ -143,18 +163,33 @@ const Oefenen = () => {
               {/* card met pijltjes */}
               <div className='flex flex-col justify-center items-center mt-36'>
                 <Card objects={objects} currentIndex={currentIndex}></Card>
-                <div
-                  className={`flex justify-center items-center w-28 h-14 mt-8 rounded-lg cursor-pointer ${
-                    isAudioPlaying ? "cursor-not-allowed opacity-50" : ""
-                  }`}
-                  style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                    filter: "drop-shadow(0px 3px 6px rgba(28, 27, 27, 0.50))",
-                  }}
-                  onClick={!isAudioPlaying ? handleRightClick : null}
-                >
-                  <img src={arrowRight} alt='arrow' className='max-w-14'></img>
-                </div>
+
+                {/* Toon de "arrowRight"-knop of "Klaar"-knop afhankelijk van het huidige item */}
+                {currentIndex < objects.length - 1 ? (
+                  <div
+                    className={`flex justify-center items-center w-72 h-14 mt-8 rounded-lg cursor-pointer ${
+                      isAudioPlaying ? "cursor-not-allowed opacity-50" : ""
+                    }`}
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      filter: "drop-shadow(0px 3px 6px rgba(28, 27, 27, 0.50))",
+                    }}
+                    onClick={!isAudioPlaying ? handleRightClick : null}
+                  >
+                    <img
+                      src={arrowRight}
+                      alt='arrow'
+                      className='max-w-14'
+                    ></img>
+                  </div>
+                ) : (
+                  <button
+                    className='flex justify-center items-center w-72 h-14 mt-8 rounded-lg border-green-500 border-2 bg-card text-green-500'
+                    onClick={handleNavigate}
+                  >
+                    <img src={check} className='h-12'></img>
+                  </button>
+                )}
               </div>
             </>
           )}
